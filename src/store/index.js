@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 // Modules
 import account from './modules/account';
+import displaySettings from './modules/displaySettings';
 
 Vue.use(Vuex);
 
@@ -12,5 +13,6 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     account,
+    displaySettings,
   },
 });
