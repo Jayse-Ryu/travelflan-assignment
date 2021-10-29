@@ -1,11 +1,13 @@
 <template>
   <div
     class="d-flex justify-center align-center"
-    style="height: 100%;"
+    style="height: 100%; background: cadetblue;"
   >
     <v-card
       style="width: 100%"
       max-width="400"
+      :loading="loading"
+      light
     >
       <v-card-title>
         Login
@@ -34,6 +36,7 @@
                 prepend-icon="mdi-lock"
                 dense
                 :rules="rules.password"
+                @keyup.enter="submit()"
               />
             </v-col>
           </v-form>
@@ -45,6 +48,7 @@
       >
         <v-btn
           color="primary"
+          :loading="loading"
           @click="submit"
         >
           Login
@@ -55,13 +59,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Login',
 
   data: () => ({
+    loading: false,
     form: {
-      email: '',
-      password: '',
+      email: 'demo@test.com',
+      password: '1234',
     },
     rules: {
       email: [
@@ -75,11 +82,24 @@ export default {
   }),
 
   methods: {
-    submit() {
+    ...mapActions('account', [
+      'doUserLogin',
+    ]),
+
+    async submit() {
       if (this.$refs.loginForm.validate()) {
-        console.log('submit!');
+        try {
+          this.loading = true;
+          await this.doUserLogin(this.form);
+          this.$router.push({ name: 'dashboard' });
+        } catch (err) {
+          console.log('Login error', err);
+          this.$toast.error(err);
+        } finally {
+          this.loading = false;
+        }
       } else {
-        this.$toast.error('check');
+        this.$toast.error('Please check the fields');
       }
     },
   },

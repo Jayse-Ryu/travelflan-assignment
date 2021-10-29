@@ -1,6 +1,8 @@
 <template>
   <v-app id="viewApp">
-    <router-view />
+    <v-fade-transition mode="out-in">
+      <router-view />
+    </v-fade-transition>
   </v-app>
 </template>
 
@@ -15,7 +17,11 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+html {
+  background-color: #212121;
+}
+
+#viewApp {
   min-width: 360px;
 }
 </style>

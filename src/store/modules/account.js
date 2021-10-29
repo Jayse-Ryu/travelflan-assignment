@@ -6,7 +6,7 @@ const state = {
 
 // getters
 const getters = {
-  userName: (state) => (!!state.user.name),
+  isAuth: (state) => (!!state.user?.uuid),
 };
 
 // mutations
@@ -22,18 +22,26 @@ const mutations = {
 
 // actions
 const actions = {
+  async doUserLogin({ commit }, form) {
+    const response = await accountApi.loginUser(form);
+    commit('setUser', response);
+    return true;
+  },
+
   async getCurrentUser({ commit }) {
     // empty user data
     commit('clearUser');
-
     try {
       const response = await accountApi.currentUser();
       commit('setUser', response);
-
       return response;
     } catch (err) {
       return null;
     }
+  },
+
+  async logout({ commit }) {
+    commit('clearUser');
   },
 };
 
