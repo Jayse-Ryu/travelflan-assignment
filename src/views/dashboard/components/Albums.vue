@@ -22,6 +22,14 @@
         </div>
       </template>
 
+      <template #item.image="{ item }">
+        <v-img
+          :key="`img${item.id}`"
+          max-width="80"
+          src="http://via.placeholder.com/150"
+        ></v-img>
+      </template>
+
       <template #item.delete="{ item }">
         <v-btn
           color="error"
@@ -65,7 +73,7 @@ export default {
   data: () => ({
     loading: false,
     headers: [
-      { text: 'ID', value: 'id' },
+      { text: 'Cover', value: 'image' },
       { text: 'Title', value: 'title' },
       { text: 'User', value: 'userId' },
       { text: '', value: 'delete', width: 80 },
